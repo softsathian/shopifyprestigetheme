@@ -1,0 +1,344 @@
+section {
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+}
+
+.container img {
+    height: 100%;
+    width: 100%;
+}
+
+
+.all-tooltip {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.tooltip-content {
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 20px #00000020;
+    border-radius: 8px;
+    width: 90vw;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    display: flex !important;
+    align-items: center;
+    padding: 15px;
+    background-color: rgb(138 191 207 / 90%);
+    max-width: 50%;
+}
+
+.tooltip-content .arrow {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 10px solid transparent;
+    border-bottom-color: #8abfcf;
+    top: 0px;
+    left: 50%;
+    transform: translate(-5%, -100%) rotate(0deg);
+}
+
+.pin {
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 80%;
+    height: 25px;
+    width: 25px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.pin:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    animation: puls-effect 1s ease infinite;
+}
+
+.tooltipCustom.active .tooltip-content {
+    opacity: 1;
+    pointer-events: all;
+    display: block;
+}
+
+/* Custom Style for tooltip-1 */
+
+.tooltip-1 .pin {
+    top: 43.1%;
+    left: 32.6%;
+    height: 15px;
+    width: 15px;
+    background-color: rgb(255, 255, 255);
+}
+
+.tooltip-1 .tooltip-content {
+    display: flex;
+    max-width: 500px;
+    align-items: stretch;
+    width: 50%;
+    padding: 20px;
+}
+
+.tooltip-1 .tooltip-content .content h1 {
+    font-size: 24px;
+}
+
+
+.tooltip-1.active .tooltip-content {
+    display: flex;
+}
+
+.tooltip-1 .tooltip-content .content {
+    font-size: 14px;
+}
+
+.tooltip-1 .tooltip-content .content button {
+    font-family: "Montserrat";
+    font-size: 18px;
+    font-weight: 400;
+    border: none;
+    outline: none;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 20px #00000020;
+}
+
+/* custom style for tooltip-2 */
+
+.tooltip-2 .pin {
+    top: 54.7%;
+    left: 39.3%;
+    height: 15px;
+    width: 15px;
+}
+
+.tooltip-2 .tooltip-content .content h1 {
+    margin: 20px 0;
+}
+
+/* Custom style for tooltip-3 */
+
+.tooltip-3 .pin {
+    top: 33.7%;
+    left: 30.2%;
+    height: 15px;
+    width: 15px;
+}
+
+/* Custom style for tooltip-4 */
+
+.tooltip-4 .pin {
+    top: 58.9%;
+    left: 27.7%;
+    height: 15px;
+    width: 15px;
+}
+
+
+@-webkit-keyframes puls-effect {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+@keyframes puls-effect {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+
+.tooltipCustom.tooltip-1.active .tooltip-content {
+    left: 442px;
+    top: 306px;
+}
+
+.tooltipCustom.tooltip-2.active .tooltip-content {
+    left: 526px;
+    top: 305px;
+}
+
+.tooltipCustom.tooltip-3.active .tooltip-content {
+    left: 411px;
+    top: 239px;
+}
+
+.tooltipCustom.tooltip-4.active .tooltip-content {
+    left: 380px;
+    /* top: 418px; */
+    top: 335px;
+}
+
+.tooltipCustom.tooltip-2.active .tooltip-content .arrow,
+.tooltipCustom.tooltip-4.active .tooltip-content .arrow {
+    top: 101px !important;
+    left: -19px !important;
+}
+
+
+/* .app-content {
+    padding-top: 0px !important;
+    min-height: 100vh !important;
+  } */
+
+
+.tooltipCustom .pin {
+    background-color: rgb(255 255 255);
+}
+
+.tooltipCustom .tooltip-content {
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 20px #00000020;
+    border-radius: 8px;
+    width: 90vw;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+    display: flex !important;
+    align-items: center;
+    padding: 15px;
+    background-color: rgb(138 191 207 / 90%);
+    max-width: 50%;
+
+}
+
+.tooltipCustom .closebtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    outline: none;
+}
+
+.tooltipCustom .arrow {
+    border-bottom-color: #8abfcf;
+    top: 0px;
+    transform: translate(-5%, -100%) rotate(-90deg);
+    position: absolute;
+    left: -18px !important;
+    top: 25px !important;
+}
+
+.tooltipCustom .img {
+    width: 30%;
+}
+
+.tooltipCustom .content {
+    width: 70%;
+    padding-left: 15px;
+}
+
+.tooltipCustom h5 {
+    /* color: #005089; */
+    color: #ffffff;
+    padding-bottom: 15px;
+    font-size: 25px;
+    font-weight: normal;
+    margin-bottom: 0;
+}
+
+.tooltipCustom p {
+    color: #ffffff;
+}
+
+.slick-slide .container>img {
+    object-position: 0 -150px;
+}
+
+.slick-slide .container .all-tooltip {
+    top: -150px;
+}
+
+
+@media screen and (max-width: 991px) {
+    .slick-slide .container>img {
+        object-position: 0;
+    }
+
+    .slick-slide .container .all-tooltip {
+        top: 0;
+    }
+}
+
+@media (min-width:320px) and (max-width: 768px) {
+    .all-tooltip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .tooltipCustom {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .tooltip-content {
+        max-width: 90% !important;
+        flex-direction: column;
+    }
+
+    .tooltip-content .arrow {
+        display: none;
+    }
+
+    .tooltip-content .img {
+        width: 30%;
+    }
+
+    .tooltip-content .content {
+        width: 100% !important;
+    }
+
+    .tooltip-content h5 {
+        font-size: 16px !important;
+        font-weight: bold;
+    }
+
+    .tooltip-content p {
+        font-size: 14px !important;
+        font-weight: normal;
+    }
+
+    .tooltipCustom.active .tooltip-content {
+        max-height: 200px;
+        overflow-y: scroll;
+    }
+
+    .tooltipCustom.active .tooltip-content {
+        left: inherit !important;
+        top: inherit !important;
+    }
+}
