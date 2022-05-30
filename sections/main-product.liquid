@@ -37,9 +37,16 @@
       // Do nothing, this may happen in Safari in incognito mode
     }
   })();
+
+  $(document).ready(function() {
+    console.log('as');
+    $('#smartwishlist').wrap('<div class="wrapdynamic-buttons" />');
+    $(".SPCMP_Added").appendTo(".wrapdynamic-buttons");
+  });
+
 </script>
 
-<section class="Product Product--{{ section.settings.image_size }}" data-section-id="{{ section.id }}" data-section-type="product" data-section-settings='{{ section_settings }}'>
+<section class="Product Product--{{ section.settings.image_size }} Product-page" data-section-id="{{ section.id }}" data-section-type="product" data-section-settings='{{ section_settings }}'>
   <div class="Product__Wrapper">
     {%- capture action_list_items -%}
       {%- if section.settings.enable_image_zoom -%}
@@ -54,6 +61,7 @@
             <span class="RoundButton__PrimaryState">{% render 'icon' with 'share' %}</span>
             <span class="RoundButton__SecondaryState">{% render 'icon' with 'close' %}</span>
           </button>
+
 
           {%- assign share_url = shop.url | append: product.url -%}
           {%- assign twitter_text = product.title -%}
@@ -137,6 +145,7 @@
 
     {%- if product.media.size > 0 -%}
       <div class="Product__Gallery {% if section.settings.stack_images %}Product__Gallery--stack{% endif %} {% if section.settings.show_thumbnails and media_count > 1 %}Product__Gallery--withThumbnails{% else %}Product__Gallery--withDots{% endif %}">
+        <div class="sticky-image-wrapper">
         <span id="ProductGallery" class="Anchor"></span>
 
         {%- if action_list_items != blank -%}
@@ -246,6 +255,7 @@
           {{- slideshow_nav -}}
         {%- endunless -%}
       </div>
+    </div>
     {%- endif -%}
 
     {%- capture product_aside -%}
@@ -301,8 +311,43 @@
                         {{- product.description | replace: 'data-section-type', 'data-section-type-placeholder' -}}
                       </div>
                     </div>
+                    <div class="ProductMeta__Description ProductMeta_TechFeatures">
+                      <div class="Rte">
+                        <ul>
+                          {%- if product.metafields.TechFeature.List != blank -%}
+                            {%- for item in product.metafields.TechFeature.List.value -%}
+                              <li>
+                                {{ item }}
+                              </li>
+                            {%- endfor -%}
+                          {%- endif -%}
+                          <!-- {%- if product.metafields.TechFeature.Support != blank -%}
+                            <li>
+                              {{ product.metafields.TechFeature.Support }}
+                            </li>
+                          {%- endif -%}
+                          {%- if product.metafields.TechFeature.System != blank -%}
+                            <li>
+                              {{ product.metafields.TechFeature.System }}
+                            </li>
+                          {%- endif -%}
+                          {%- if product.metafields.TechFeature.Cover != blank -%}
+                            <li>
+                              {{ product.metafields.TechFeature.Cover }}
+                            </li>
+                          {%- endif -%}
+                          {%- if product.metafields.TechFeature.Quality != blank -%}
+                            <li>
+                              {{ product.metafields.TechFeature.Quality }}
+                            </li>
+                          {%- endif -%} -->
+                        </ul>
+                      </div>
+                    </div>
+                    
                   {%- endif -%}
 
+                  {%- comment -%}
                 {%- when 'share_buttons' -%}
                   <div class="ProductMeta__ShareButtons hidden-pocket" {{ block.shopify_attributes }}>
                     <span class="ProductMeta__ShareTitle Heading Text--subdued u-h7">{{ 'product.form.share' | t }}</span>
@@ -318,6 +363,7 @@
                       <a class="ProductMeta__ShareItem" href="https://pinterest.com/pin/create/button/?url={{ share_url }}{% if pinterest_image != blank %}&media={{ pinterest_image }}{% endif %}&description={{ pinterest_description }}" target="_blank" rel="noopener" aria-label="Pinterest">{%- render 'icon' with 'pinterest' -%}</a>
                     </div>
                   </div>
+                  {%- endcomment -%}
 
                 {%- when 'variant_selector' -%}
                   {%- assign has_ouputted_variant_selector = true -%}
@@ -372,7 +418,9 @@
                         }
                       </style>
                     {%- endif -%}
-
+                    <p>
+ 					{{- form | payment_terms -}}
+                    </p>
                     <button type="submit" data-use-primary-button="{% if use_primary_button %}true{% else %}false{% endif %}" class="ProductForm__AddToCart Button {% if product.selected_or_first_available_variant.available and use_primary_button %}Button--primary{% else %}Button--secondary{% endif %} Button--full" {% if product.selected_or_first_available_variant.available %}data-action="add-to-cart"{% else %}disabled="disabled"{% endif %}>
                       {%- if product.selected_or_first_available_variant.available -%}
                         <span>{% if product.template_suffix == 'pre-order' %}{{ 'product.form.pre_order' | t }}{% else %}{{ 'product.form.add_to_cart' | t }}{% endif %}</span>
@@ -387,7 +435,9 @@
                     </button>
 
                     {%- if block.settings.show_payment_button and product.template_suffix != 'pre-order' -%}
-                      {{ form | payment_button }}
+                      <div class="test-buttons">
+                        {{ form | payment_button }}
+                      </div>
                     {%- endif -%}
                   </div>
 
@@ -427,6 +477,22 @@
             </div>
           {%- endif -%}
         </div>
+
+        <div class="ProductMeta__ShareButtons hidden-pocket" {{ block.shopify_attributes }}>
+          <span class="ProductMeta__ShareTitle Heading Text--subdued u-h7">{{ 'product.form.share' | t }}</span>
+
+          {%- assign share_url = shop.url | append: product.url -%}
+          {%- assign twitter_text = product.title -%}
+          {%- assign pinterest_description = product.description | strip_html | truncatewords: 15 | url_param_escape -%}
+          {%- assign pinterest_image = product.featured_image | img_url: 'large' | prepend: 'https:' -%}
+
+          <div class="ProductMeta__ShareList Text--subdued">
+            <a class="ProductMeta__ShareItem" href="https://www.facebook.com/sharer.php?u={{ share_url }}" target="_blank" rel="noopener" aria-label="Facebook">{%- render 'icon' with 'facebook' -%}</a>
+            <a class="ProductMeta__ShareItem" href="https://twitter.com/share?{% if twitter_text != blank %}text={{twitter_text}}&{% endif %}url={{ share_url }}" target="_blank" rel="noopener" aria-label="Twitter">{%- render 'icon' with 'twitter' -%}</a>
+            <a class="ProductMeta__ShareItem" href="https://pinterest.com/pin/create/button/?url={{ share_url }}{% if pinterest_image != blank %}&media={{ pinterest_image }}{% endif %}&description={{ pinterest_description }}" target="_blank" rel="noopener" aria-label="Pinterest">{%- render 'icon' with 'pinterest' -%}</a>
+          </div>
+        </div>
+        
       </div>
     </div>
 
@@ -437,6 +503,7 @@
       </div>
     {%- endif -%}
   </div>
+  
 </section>
 
 {%- comment -%}

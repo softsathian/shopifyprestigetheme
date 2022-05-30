@@ -6,7 +6,7 @@ IMPORTANT: THIS CODE IS VITAL. DO NOT EDIT IT NOT REMOVE IT. MAKE SURE TO KEEP
 THE EXACT SAME ATTRIBUTES.
 ------------------------------------------------------------------------------
 {% endcomment %}
-
+ {{- form | payment_terms -}}
 {%- assign inventory_block = section.blocks | where: 'type', 'inventory' | first -%}
 
 <script type="application/json" data-product-json>

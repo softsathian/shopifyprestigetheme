@@ -74,7 +74,15 @@
                 <p class="Cart__Taxes Text--subdued">{{ shipping_and_taxes_notice }}</p>
               {%- endif -%}
 
-              <button type="submit" name="checkout" class="Cart__Checkout Button Button--primary Button--full">{{ 'cart.general.checkout' | t }}</button>
+              <!-- <button type="submit" name="checkout" class="Cart__Checkout Button Button--primary Button--full">{{ 'cart.general.checkout' | t }}</button> -->
+
+              <div class="cart_button-wrapper">
+                <button type="button" onclick="removeItems()" class="View_in_Store Button Button--secondary">
+                  Remove All
+                </button>              
+                <button type="submit" name="checkout" class="Cart__Checkout Button Button--primary Button--full">{{ 'cart.general.checkout' | t }}</button>
+              </div>
+
             </div>
           </footer>
         </form>
@@ -115,6 +123,62 @@
     </div>
   {%- endif -%}
 </section>
+
+
+
+{% assign csv = cart.items | map: "variant_id" | join: "," %}
+<!-- {{ csv }}
+{%- for line_item in cart.items -%}
+ <div class="test">
+  {{ line_item.variant_id }}
+ </div>
+{%- endfor -%} -->
+
+<script>
+ jQuery(document).ready(function() {
+    // console.log('cart test', {{ csv }});
+    // setTimeout(function() {
+    //   console.log('timeput');
+    //   jQuery('.View_in_Store').on('click', function() {
+    //      removeItems(array);
+    //     //alert('asd');
+    //   });
+    //   console.log(array);
+    // }, 3000)
+ });
+
+  function removeItems() {
+    var items = [{{ csv }}];
+  // var itemsProcessed = items.slice(0,-1);
+  console.log(items);
+  // var itemsArray = items.split(',');
+  var qty = 0;
+  // data.updates[itemsArray[i]] = qty;
+
+  // for (i = 0; i < items.length; i++) {
+  //     var data = { quantity: 0, id: items[i] };
+      
+  // }
+
+  var data = { updates: {} };
+ 
+  for (i = 0; i < items.length; i++) {
+     data.updates[items[i]] = qty;
+  }
+
+  jQuery.ajax({
+      type: 'POST',
+      url: '/cart/update.js',
+      data: data,
+      dataType: 'json',
+      success: function() { 
+        window.location.reload();
+      }
+    });
+
+  
+}
+</script>
 
 {% schema %}
 {

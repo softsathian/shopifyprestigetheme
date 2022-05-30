@@ -6,6 +6,21 @@
         "product_meta": {
           "type": "product_meta",
           "settings": {
+            "show_vendor": true,
+            "show_sku": false,
+            "show_product_rating": true,
+            "show_taxes_included": false
+          }
+        },
+        "aaa950a3-f21a-4ebb-b87e-8ddf12ba5977": {
+          "type": "shopify:\/\/apps\/product-reviews\/blocks\/star_rating\/bae150af-8da8-48b2-9867-398188115e5f",
+          "disabled": true,
+          "settings": {
+            "stars_fill_color": "#000000",
+            "star_size": 15,
+            "text_align": "flex-start",
+            "product": "{{product}}",
+            "stars_text_empty": "No reviews"
           }
         },
         "description": {
@@ -13,52 +28,106 @@
           "settings": {
           }
         },
-        "share_buttons": {
-          "type": "share_buttons",
-          "settings": {
-          }
-        },
         "variant_selector": {
           "type": "variant_selector",
           "settings": {
+            "selector_mode": "block",
+            "show_color_swatch": false,
+            "show_color_carousel": false,
+            "size_chart": ""
           }
         },
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {
+            "show_label": false
           }
         },
         "buy_buttons": {
           "type": "buy_buttons",
+          "settings": {
+            "show_price_in_button": false,
+            "show_payment_button": true
+          }
+        },
+        "share_buttons": {
+          "type": "share_buttons",
           "settings": {
           }
         }
       },
       "block_order": [
         "product_meta",
+        "aaa950a3-f21a-4ebb-b87e-8ddf12ba5977",
         "description",
-        "share_buttons",
         "variant_selector",
         "quantity_selector",
-        "buy_buttons"
+        "buy_buttons",
+        "share_buttons"
       ],
       "settings": {
+        "image_size": "large",
+        "stack_images": false,
+        "show_thumbnails": true,
+        "enable_image_zoom": true,
+        "enable_video_looping": true
       }
     },
-    "product-recommendations": {
-      "type": "product-recommendations",
+    "1652937490c709a637": {
+      "type": "complete-product",
+      "blocks": {
+        "d0c94221-d3ad-472d-a2d5-31e21fcb5178": {
+          "type": "product",
+          "settings": {
+            "product": "essentials™526542-1"
+          }
+        },
+        "19093dda-b14f-4108-b148-2bee80346bfb": {
+          "type": "product",
+          "settings": {
+            "product": "essentials™526763-1"
+          }
+        },
+        "0ebe7db7-cafb-45cd-8af7-7313c9697845": {
+          "type": "product",
+          "settings": {
+            "product": "posturepedic®527764"
+          }
+        },
+        "b3434bac-5425-4f7b-9076-a5c0566572f6": {
+          "type": "product",
+          "settings": {
+            "product": "posturepedic®527765"
+          }
+        }
+      },
+      "block_order": [
+        "d0c94221-d3ad-472d-a2d5-31e21fcb5178",
+        "19093dda-b14f-4108-b148-2bee80346bfb",
+        "0ebe7db7-cafb-45cd-8af7-7313c9697845",
+        "b3434bac-5425-4f7b-9076-a5c0566572f6"
+      ],
       "settings": {
+        "heading": "Recommended Products to complete your sleep system",
+        "show_product_info": true,
+        "show_vendor": true,
+        "show_cart_button": true,
+        "show_color_swatch": false
       }
     },
     "recently-viewed-products": {
       "type": "recently-viewed-products",
       "settings": {
+        "title": "Recently viewed",
+        "show_product_info": true,
+        "show_vendor": false,
+        "show_color_swatch": false
       }
     }
   },
   "order": [
     "main",
-    "product-recommendations",
+    "1652937490c709a637",
     "recently-viewed-products"
   ]
 }
