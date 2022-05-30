@@ -446,9 +446,31 @@ HEADER CONTENT
       </a>
     </div>
   </div>
-
-
 </header>
+
+  <!-- Product page sticky review bar -->
+ {%- if template.name == 'product' -%}
+{%- render 'product-data', product: product -%}
+<div class="product-sticky-header">
+ 
+  <div class="row-flex">
+    <div class="sticky-left">
+      <div class="product">
+        <h1 class="ProductMeta__Title Heading u-h2">{{ product.title  }}</h1>
+        <div class="ProductMeta__Rating Heading Text--subdued u-h7">
+          {%- render 'product-rating', product: product -%}
+        </div>
+      </div>
+    </div>
+    <div class="sticky-right">
+      <button type="submit" data-use-primary-button="false" class="ProductForm__AddToCart Button Button--secondary Button--full btn-butnow">
+          <span>Buy Now</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+{%- endif -%}
 
 <style>
   {%- if section.settings.use_sticky_header -%}
@@ -509,6 +531,29 @@ HEADER CONTENT
 
 <script>
   document.documentElement.style.setProperty('--header-height', document.getElementById('shopify-section-header').offsetHeight + 'px');
+
+
+
+  $(document).ready(function() {
+    $('.btn-butnow').on('click', function() {
+      console.log('test');
+      $('html, body').animate({
+        scrollTop: $(".ProductForm__QuantitySelector").offset().top - 260
+    }, 2000);
+    });
+  });;
+
+  $(window).scroll(function() {
+    //         const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    // console.log( { scrollTop, scrollHeight, clientHeight });
+    // var scrollTop     = $(window).scrollTop(),
+    // elementOffset = $('.Section--spacingNormal').offset().top,
+    // distance      = (elementOffset - scrollTop);
+    // console.log('sf', scrollTop, elementOffset );
+    var e = $('.Section--spacingNormal').offset().top - 60;
+    $(window).scrollTop() >= e ? $(".product-sticky-header").addClass("fixed") : $(".product-sticky-header").removeClass("fixed");
+  })
+
 </script>
 
 {% schema %}

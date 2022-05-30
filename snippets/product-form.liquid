@@ -2,7 +2,7 @@
 Those are the option names for which we automatically detect swatch. For the color, we use them to display a swatch, while
 for size, we use it to display a size chart (if applicable)
 {%- endcomment -%}
-
+ {{- form | payment_terms -}}
 {%- assign color_label = 'color,colour,couleur,colore,farbe,색,色,färg,farve' | split: ',' -%}
 {%- assign size_label = 'size,taille,größe,tamanho,tamaño,koko,サイズ' | split: ',' -%}
 
@@ -214,6 +214,81 @@ for size, we use it to display a size chart (if applicable)
           {%- assign product_popovers = product_popovers | append: popover_html -%}
         {%- endif -%}
       </div>
+
+    {%- if product.handle == 'proadapt107371' or product.handle == 'proadapt107391' or product.handle == 'proadapt107361' -%}
+        <div class="ProductForm__Option ProductForm__Option--labelled">
+            <span class="ProductForm__Label">FEEL:</span>
+            <ul class="SizeSwatchList HorizontalList HorizontalList--spacingTight">
+                <li class="HorizontalList__Item">
+                  <input class="SizeSwatch__Radio" type="radio" value="{{ value | escape }}" {%- if product.handle == 'proadapt107371' -%} checked="checked" {%- endif -%}>
+                  <label for="option-{{ section.id }}-{{ forloop.parentloop.index0 }}-{{ forloop.index0 }}" class="SizeSwatch" onclick="location.href='proadapt107371'">Medium</label>
+                </li>
+                <li class="HorizontalList__Item">
+                  <input class="SizeSwatch__Radio" type="radio" value="{{ value | escape }}"  {%- if product.handle == 'proadapt107391' -%} checked="checked" {%- endif -%}>
+                  <label for="option-{{ section.id }}-{{ forloop.parentloop.index0 }}-{{ forloop.index0 }}" class="SizeSwatch" onclick="location.href='proadapt107391'">Medium Hybrid</label>
+                </li>
+                <li class="HorizontalList__Item">
+                  <input class="SizeSwatch__Radio" type="radio" value="{{ value | escape }}" {%- if product.handle == 'proadapt107361' -%} checked="checked" {%- endif -%}>
+                  <label for="option-{{ section.id }}-{{ forloop.parentloop.index0 }}-{{ forloop.index0 }}" class="SizeSwatch" onclick="location.href='proadapt107361'">Firm</label>
+                </li>
+            </ul>
+          </div>
+      {%- else -%}
+      {%- if product.metafields.Feel.Feel != blank -%}
+        {%- if block.settings.selector_mode == 'block' -%}
+          <div class="ProductForm__Option ProductForm__Option--labelled">
+            <span class="ProductForm__Label">FEEL:</span>
+            <ul class="SizeSwatchList HorizontalList HorizontalList--spacingTight">
+                <li class="HorizontalList__Item">
+                  <input class="SizeSwatch__Radio" type="radio" value="{{ value | escape }}" checked="checked">
+                  <label for="option-{{ section.id }}-{{ forloop.parentloop.index0 }}-{{ forloop.index0 }}" class="SizeSwatch" style="cursor: default;">{{ product.metafields.Feel.Feel }}</label>
+                </li>
+            </ul>
+          </div>
+        {%- else -%}
+          <div class="ProductForm__Option ">
+            <div class="ProductForm__Item" style="cursor: default;">
+              <span class="ProductForm__OptionName">
+                FEEL: <span class="ProductForm__SelectedValue">{{ product.metafields.Feel.Feel }}</span>
+              </span>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+
+      <!-- {%- if product.metafields.Profile.Profile != blank -%}
+        <div class="ProductForm__Option ">
+          <div class="ProductForm__Item" style="cursor: default;">
+            <span class="ProductForm__OptionName">
+              Profile: <span class="ProductForm__SelectedValue">{{ product.metafields.Profile.Profile }}</span>
+            </span>
+          </div>
+        </div>
+      {%- endif -%} -->
+
+      <!-- {%- if product.metafields.Warranty.Warranty != blank -%}
+        {%- if block.settings.selector_mode == 'block' -%}
+          <div class="ProductForm__Option ProductForm__Option--labelled">
+            <span class="ProductForm__Label">WARRANTY:</span>
+            <ul class="SizeSwatchList HorizontalList HorizontalList--spacingTight">
+                <li class="HorizontalList__Item">
+                  <input class="SizeSwatch__Radio" type="radio" value="{{ value | escape }}" checked="checked">
+                  <label for="option-{{ section.id }}-{{ forloop.parentloop.index0 }}-{{ forloop.index0 }}" class="SizeSwatch" style="cursor: default;">{{ product.metafields.Warranty.Warranty }}</label>
+                </li>
+            </ul>
+          </div>
+          {%- else -%}
+            <div class="ProductForm__Option ">
+              <div class="ProductForm__Item" style="cursor: default;">
+                <span class="ProductForm__OptionName">
+                  WARRANTY: <span class="ProductForm__SelectedValue">{{ product.metafields.Warranty.Warranty }}</span>
+                </span>
+              </div>
+            </div>
+        {%- endif -%}
+      {%- endif -%} -->
+      
     {%- endfor -%}
 
     <div class="no-js ProductForm__Option">

@@ -1,0 +1,171 @@
+{%- assign product_handle_name = cart.items[0].product.handle -%}
+<script>
+    $(document).ready(function() {
+      var elem = document.querySelector('.Complete-RecommendationsProduct .ProductListWrapper .Carousel');
+        var url = 'https://tsi-sleepsmart-dev-api.azurewebsites.net/api/Common/GetRelatedProducts/'+ '{{ product_handle_name }}';
+        const res = getProducts(url,elem);
+  
+        
+      
+      setTimeout(function() {
+        var flkty = new Flickity( elem, {
+            prevNextButtons: true,
+            pageDots: false,
+            wrapAround: false,
+            contain: true,
+            cellAlign: 'center',
+            watchCSS: true,
+            dragThreshold: 8,
+            groupCells: true,
+        });
+      }, 1500)
+    });
+    
+    function getProducts(url,elem) {
+        $.ajax({
+            type: 'GET',
+            crossDomain: true,
+            dataType: 'json',
+            url: url,
+            success: function(res) {
+              var itemsCount = 0;
+              var content = '-';
+              var product_handles = res;
+              var productdetail = new Promise((resolve, reject) => {
+              product_handles.forEach(function(item, index, array) {
+                    jQuery.getJSON('/products/' + item + '.js', function(product) {
+                        console.log(product);
+                        //var price = Shopify.formatMoney(product.price, '{{ shop.money_format }}');
+                        //console.log(price);
+                        content += '<div class="Carousel__Cell"><div class="ProductItem"><div class="ProductItem__Wrapper"><a href="#" class="ProductItem__ImageWrapper ProductItem__ImageWrapper--withAlternateImage"><div class=""><img  class="ProductItem__Image ProductItem__Image--alternate Image--fadeIn lazyautosizes Image--lazyLoaded" data-widths="[200,300,400,600,800]" data-sizes="auto" src="'+ product.images[1] +'" alt="' + product.title + '"/> <img class="ProductItem__Image Image--fadeIn lazyautosizes Image--lazyLoaded" data-widths="[200,400,600,700,800]" data-sizes="auto" alt="' + product.title + '" src="'+ product.images[0] +'"></div></a><div class="ProductItem__Info ProductItem__Info--center"><h2 class="ProductItem__Title Heading"><a href="#">' + product.title + '</a></h2><span class="smartwishlist" data-product="' + product.id + '" data-variant="' + product.variants[0].id + '"></span><div class="ProductItem__PriceList  Heading"><span class="ProductItem__Price Price Text--subdued">From $'+ product.price +'</span></div></div> <div class="add-to-cart-button"><form method="post" action="/cart/add"><input type="hidden" name="id" value="'+ product.variants[0].id +'" /><input min="1" type="number" id="quantity" name="quantity" value="1" hidden/><button type="submit" data-use-primary-button="false" class="ProductForm__AddToCart Button Button--secondary Button--full btn-butnow"><span>Add to cart</span></button></form></div></div></div></div>';
+                        itemsCount ++;
+                        if (itemsCount === array.length) resolve();
+                    });
+                });
+            });
+            productdetail.then(() => {
+                console.log(content);
+                content = content.substring(1);
+                $(".Complete-ProductList").html(content);
+            });
+            },
+            error: function(status){ 
+              alert("fail"+JSON.stringify(status));
+            }
+          });
+          }
+  
+  
+  </script>
+  
+  
+  <section class="Section Section--spacingNormal">
+      <header class="SectionHeader SectionHeader--center">
+        <div class="Container">
+          <h3 class="SectionHeader__Heading Heading u-h3">{{ section.settings.heading | escape }}</h3>
+        </div>
+      </header>
+  
+    <div class="Complete-RecommendationsProduct Complete-ProductRecommendations">
+        <div class="ProductListWrapper">
+            <div class="Complete-ProductList ProductList ProductList--carousel Carousel">
+            </div>
+        </div>
+    </div>
+  </section>
+  
+  {% schema %}
+  {
+    "name": "Complete Sleep System",
+    "class": "shopify-section--bordered",
+    "max_blocks": 10,
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Product",
+        "settings": [
+          {
+            "type": "paragraph",
+            "content": "Dynamic recommendations are not shown if products are explicitly selected."
+          },
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "You may also like"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_product_info",
+        "label": "Show product info",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_cart_button",
+        "label": "Show Add to Cart Button",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_color_swatch",
+        "label": "Show color swatch",
+        "info": "Some colors appear white? [Learn more](http://support.maestrooo.com/article/80-product-uploading-custom-color-for-color-swatch).",
+        "default": false
+      }
+    ],
+    "presets": [
+      {
+        "category": "Product",
+        "name": "Complete Sleep System"
+      }
+    ]
+  }
+  {% endschema %}
+  
+  
+  
+  <!-- <div class="ProductItem">
+    <div class="ProductItem__Wrapper">
+        <a href="#" class="ProductItem__ImageWrapper ProductItem__ImageWrapper--withAlternateImage">
+          <div class="">
+            <img src="//cdn.shopify.com/s/files/1/0575/3959/2324/products/Compare_LH87.jpg?v=1653314441" alt="Image" />
+          </div>
+        </a>
+        <div class="ProductItem__Info ProductItem__Info--center">
+            <h2 class="ProductItem__Title Heading">
+                <a href="#">Chablis Foam</a>
+            </h2>
+          
+            <div class="ProductItem__PriceList  Heading">
+              <span class="ProductItem__Price Price Text--subdued">From $1,099.00</span>
+            </div>
+        </div>
+        
+  <form method="post" action="/cart/add">
+    <input type="hidden" name="id" value="40494915190916" />
+    <input min="1" type="number" id="quantity" name="quantity" value="1" hidden/>
+    <input min="1" type="number" id="quantity" name="quantity" value="1" hidden/>
+          <button type="submit" data-use-primary-button="false" class="ProductForm__AddToCart Button Button--secondary Button--full btn-butnow">
+            <span>Add to cart</span>
+        </button>
+      </form>
+    </div>
+  </div> -->
+
+  <!-- <img class="ProductItem__Image ProductItem__Image--alternate Image--fadeIn lazyautosizes Image--lazyLoaded" data-widths="[200,300,400,600,800]" data-sizes="auto" alt="Chablis Foam" data-media-id="22770330566788" data-srcset="//cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_200x.webp?v=1652866631 200w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_300x.webp?v=1652866631 300w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_400x.webp?v=1652866631 400w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_600x.webp?v=1652866631 600w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_800x.webp?v=1652866631 800w" sizes="211px" srcset="//cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_200x.webp?v=1652866631 200w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_300x.webp?v=1652866631 300w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_400x.webp?v=1652866631 400w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_600x.webp?v=1652866631 600w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_800x.webp?v=1652866631 800w"> -->

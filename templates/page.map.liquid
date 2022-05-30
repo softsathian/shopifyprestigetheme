@@ -1,0 +1,80 @@
+<style>
+  .map-container,
+  #map {
+      min-height: 480px;
+  }
+
+  .rm-mt {
+      margin: 0 !important;
+  }
+</style>
+
+<script>    
+  function initMap() {
+      const location = { lat: 38.020400, lng: -84.484710 };
+      var map = new google.maps.Map(document.getElementById('map'), {
+          center: location,
+          scrollwheel: false,
+          streetViewControl: false,
+          scaleControl: false,
+          mapTypeControl: false,
+          zoomControl: true,
+          rotateControl: false,
+          fullscreenControl: false,
+          zoom: 12
+      });
+
+      const contentString =
+      '<div id="content">' + 
+        '<h4 style="margin-bottom: 8px; font-weight: 500; font-size: 18px;">Sleepsmartdev</h4>' + 
+        '<p>300 Garden Road, <br> Lexington Kentucky 40502, <br> United States</p>' +
+      "</div>";
+
+      const infowindow = new google.maps.InfoWindow({
+        content: contentString,
+      });
+
+      const marker = new google.maps.Marker({
+          position: location,
+          map: map,
+          // label: 'wtws'
+      });
+      marker.addListener("mouseover", () => {
+          infowindow.open({
+            anchor: marker,
+            map,
+            shouldFocus: false,
+          });
+      });
+      marker.addListener('mouseout', function() {
+          infowindow.close();
+      });
+  }
+
+  google.maps.event.addDomListener(window, 'load', initMap);
+  google.maps.event.addDomListener(window, 'resize', initMap);
+</script>
+
+<div class="Container">
+  <header class="PageHeader">
+    <div class="SectionHeader SectionHeader--center">
+      <h1 class="SectionHeader__Heading Heading u-h1">{{ page.title }}</h1>
+    </div>
+  </header>
+
+  <div class="PageContent Rte rm-mt">
+    {{ page.content }}
+  </div>
+</div>
+
+
+<div class="map-container">
+  <div id="map"></div>
+</div>
+
+
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKWTIIJb0p3GqttZ1v_DnlBoU1W2S2bfk&callback=initMap&v=weekly"
+  defer
+></script>
+

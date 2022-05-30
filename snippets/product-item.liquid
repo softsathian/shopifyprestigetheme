@@ -1,3 +1,4 @@
+{%- form 'product', product, class: 'ProductForm' -%}
 <div class="ProductItem {% if use_horizontal %}ProductItem--horizontal{% endif %}">
   <div class="ProductItem__Wrapper">
     {%- comment -%}
@@ -87,6 +88,8 @@
         <h2 class="ProductItem__Title Heading">
           <a href="{{ product.url }}">{{ product.title }}</a>
         </h2>
+
+        <span class="smartwishlist" data-product="{{ product.id }}" data-variant="{{ product.variants.first.id }}"></span>
 
         {%- if settings.show_product_rating -%}
           {%- unless use_horizontal -%}
@@ -181,6 +184,22 @@
             {%- endif -%}
           </div>
 
+          {%- if show_addtocart_button -%}            
+            <div class="add-to-cart-button">
+              <form method="post" action="/cart/add">
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                <input min="1" type="number" id="quantity" name="quantity" value="1" hidden/>
+                <button type="submit" data-use-primary-button="{% if use_primary_button %}true{% else %}false{% endif %}" class="ProductForm__AddToCart Button {% if product.selected_or_first_available_variant.available and use_primary_button %}Button--primary{% else %}Button--secondary{% endif %} Button--full" {% if product.selected_or_first_available_variant.available %}data-action="add-to-cart"{% else %}disabled="disabled"{% endif %}>
+                  {%- if product.selected_or_first_available_variant.available -%}
+                    <span>{% if product.template_suffix == 'pre-order' %}{{ 'product.form.pre_order' | t }}{% else %}{{ 'product.form.add_to_cart' | t }}{% endif %}</span>
+                  {%- else -%}
+                    {{- 'product.form.sold_out' | t -}}
+                  {%- endif -%}
+                </button>
+              </form>
+            </div>
+          {%- endif -%}
+
           {%- if product.selected_or_first_available_variant.unit_price_measurement -%}
             <div class="ProductItem__UnitPriceMeasurement">
               <div class="UnitPriceMeasurement Heading Text--subdued">
@@ -208,3 +227,5 @@
     <a href="{{ product.url }}" class="ProductItem__ViewButton Button Button--secondary hidden-pocket">{{ 'collection.product.view_product' | t }}</a>
   {%- endif -%}
 </div>
+
+{%- endform -%}

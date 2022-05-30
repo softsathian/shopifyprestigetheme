@@ -108,8 +108,9 @@
     <script src="{{ 'libs.min.js' | asset_url }}" defer></script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
     
-    <script src="{{ 'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js' }}"></script>
-    <script src="{{ 'javascript.js' | asset_url }}" defer></script>
+
+      <script src="{{ 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js' }}"></script> 
+
     <script src="{{ 'custom.js' | asset_url }}" defer></script>
 
     <script>
@@ -133,7 +134,8 @@
     </script>
 
     {% render 'microdata-schema' %}
-  </head>
+  {% render 'minmaxify-head' %}
+</head>
 
   {%- capture classes -%}features--heading-{{ settings.heading_size }}{%- endcapture -%}
 
@@ -195,5 +197,16 @@
 
       {% section 'footer' %}
     </div>
+
+    
+    {%- if template == 'cart' -%}
+    {%- if cart.item_count > 0 -%}
+      <div class="fixed-button">
+        <a href="https://sleepsmartdev.myshopify.com/pages/hotspot" class="View_in_Store">
+          <span>View in store</span>
+        </a>
+      </div>
+    {%- endif -%}
+    {%- endif -%}
   </body>
 </html>

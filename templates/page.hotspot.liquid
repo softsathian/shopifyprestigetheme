@@ -1,0 +1,246 @@
+<!-- const params = new URLSearchParams(window.location.search)
+name = params.get('name'); -->
+
+<style>
+    .tooltip-1 .pin {
+        top: 45.1%;
+        left: 36.6%;
+    }
+    .tooltip-2 .pin {
+        top: 35.7%;
+        left: 22.3%;
+    }
+    .tooltip-3 .pin {
+        top: 24.7%;
+        left: 39.2%;
+    }
+    .tooltip-4 .pin {
+        top: 28.9%;
+        left: 49.7%;
+    }
+    .tooltipCustom .tooltip-content {
+        max-width: 450px;
+    }
+    .tooltipCustom .content {
+        width: 90%;
+    }
+
+	.tooltipCustom .content h6 {
+		margin-top: 0;
+		margin-bottom: 10px;
+		color: #fff;
+		text-transform: uppercase;
+	}
+</style>
+ <!-- <script>
+
+   $(document).ready(function(){  
+      //const result;
+     
+      alert("1");
+     //addItem(1);
+     //var url = 'https://gorest.co.in/public/v2/users';
+     var url='http://tsi-sleepsmart-dev-api.azurewebsites.net/api/Common/GetRelatedProducts/test'
+        const res = getProducts(url);   
+  
+     
+     });
+   
+  
+   
+   function getProducts(url){
+     alert("getProducts");
+        $.ajax({
+            type: 'GET',
+          crossDomain: true,
+          dataType:'json',
+            url: url,           
+            success: function(res){ 
+             
+				alert("success");
+               console.log(JSON.stringify(res));
+              //result = res;
+              $.each( res, function(i, item) {
+                 var data_value = item.name;
+                             console.log(item.name);
+                 var mytext = '{{data_value}}';
+               
+                            // do something with your data here
+                        });
+              
+                //allProducts = res.products;
+                //filterProducts(allProducts);
+            },
+            error: function(status){
+                 alert("fail"+JSON.stringify(status));
+            }
+        });
+    } 
+  // alert("result"+result);
+  
+ </script>   -->
+<!-- <script>
+    $(window).load(function() {
+    // var url = window.location.href;
+    const params = new URLSearchParams(window.location.search)
+    name = params.get('name');
+
+    console.log(name);
+    // var productname  = '{{ all_products[] }}'
+    // const result = {};
+    // for (const [key, value] of Object.entries(productname)) {
+    //     console.log(key, value);
+    //     if (value.handle === name) {
+    //         result[key] = value;
+    //         console.log(value.title);
+    //     }
+    // }
+    // var product = {{ all_products[name] }}
+    //     console.log(name, product.title);
+    var pin1 = 'essentials™526388';
+    var pin2 = 'essentials™526542';
+    var pin3 = 'essentials™526127';
+    var pin4 = 'essentials™526389';
+
+        if (pin1 == name) {
+            $('.all-tooltip .tooltipCustom.tooltip-1').addClass('active')
+        } else if (pin2 == name) {
+            $('.all-tooltip .tooltipCustom.tooltip-2').addClass('active')
+        } else if (pin3 == name) {
+            $('.all-tooltip .tooltipCustom.tooltip-3').addClass('active')
+        } else if (pin4 == name) {
+            $('.all-tooltip .tooltipCustom.tooltip-4').addClass('active')
+        }
+    })
+</script> -->
+
+<!-- {%- capture contentForQuerystring -%}{{ content_for_header }}{%- endcapture -%}
+{%- assign pageUrl = contentForQuerystring | split:'"pageurl":"' | last | split:'"' | first | split:'.myshopify.com' | last |
+   replace:'\/','/' | 
+   replace:'%20',' ' | 
+   replace:'\u0026','&'
+-%}collection.
+
+{%- assign pageQuerystring = pageUrl | split:'?' | last -%}
+{%- assign pageQuerystringvalue = pageQuerystring | split:'=' | last -%}
+{%- assign value =  pageQuerystringvalue| url_decode -%}
+{%- assign product = all_products[value] -%}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+test : {{ product.title }} -->
+
+{%- for line_item in cart.items -%}
+    {% for collection in line_item.product.collections %}
+    <!--{{ collection.handle }}-->
+        <script>
+            var collectionName = '{{collection.title}}';
+
+            pin1 = 'Zone A';
+            pin2 = 'Zone B';
+            pin3 = 'Zone C';
+            pin4 = 'Zone D';
+
+            if (collectionName == pin1) {
+                setTimeout(function() {
+                    $('.all-tooltip .tooltip-1 .pin').addClass('active');
+                }, 1000)
+                // setTimeout(function() {
+                //     $('.all-tooltip .tooltipCustom.tooltip-1').addClass('active');
+                // }, 2000)
+            } else if (collectionName == pin2) {
+                setTimeout(function() {
+                    $('.all-tooltip .tooltip-2 .pin').addClass('active');
+                }, 1000)
+                // setTimeout(function() {
+                //     $('.all-tooltip .tooltipCustom.tooltip-2').addClass('active');
+                // }, 2000)
+            } else if (collectionName == pin3) {
+                setTimeout(function() {
+                    $('.all-tooltip .tooltip-3 .pin').addClass('active');
+                }, 1000)
+                // setTimeout(function() {
+                //     $('.all-tooltip .tooltipCustom.tooltip-3').addClass('active');
+                // }, 2000)
+            } else if (collectionName == pin4) {
+                setTimeout(function() {
+                    $('.all-tooltip .tooltip-4 .pin').addClass('active');
+                }, 1000)
+                // setTimeout(function() {
+                //     $('.all-tooltip .tooltipCustom.tooltip-4').addClass('active');
+                // }, 2000)
+            }
+        </script>
+
+    {% endfor %}
+{%- endfor -%}
+
+
+<section class="full-width">
+    <div class="container"><img
+            src="https://cdn.shopify.com/s/files/1/0575/3959/2324/files/Storeimage.jpg?v=1652356613" alt="Store Image" />
+        <div class="all-tooltip">
+            {% assign variable = 0 %}
+            {% for collection in collections %}
+                {% if collection.title contains 'Zone' %}    
+                {% assign variable = variable | plus: 1 %}
+                <div class="tooltipCustom tooltip-{{variable}}">
+                    <div class="pin"><span name="add-circle"></span></div>
+                    <div class="tooltip-content"><button type="button" class="close closebtn" aria-label="Close"> <span
+                                aria-hidden="true">×</span> </button>
+                        <div class="arrow"></div>
+                        <div class="content">
+                            <h5>{{ collection.title }}</h5>
+                            <!-- <div class="description"> - {{ collection.description }}</div> -->
+                            <ul class="product-list">
+                                 {%- for line_item in cart.items -%}
+                                    {% assign currentcollection = line_item.product.collections | map: "title" | join: "," %}
+                                    {% if currentcollection contains collection.title %}  
+                                        <li>{{ line_item.product.title }}</li>
+                                    {% endif %}                
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {%- endif -%}
+            {% endfor %}
+
+            <!-- <div class="tooltipCustom tooltip-2">
+                <div class="pin"></div>
+                <div class="tooltip-content"><button type="button" class="close closebtn" aria-label="Close"> <span
+                            aria-hidden="true">×</span> </button>
+                    <div class="arrow"></div>
+                    <div class="content">
+                        <h5>Zone B</h5>
+						<h6>All-Night Adaptive Support</h6>
+                        <p>The TEMPUR-Adapt® Series features pressure-relieving, motion-reducing, cool-to-touch technology that adapts to your body’s changing needs throughout the night.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tooltipCustom tooltip-3">
+                <div class="pin"></div>
+                <div class="tooltip-content"><button type="button" class="close closebtn" aria-label="Close"> <span
+                            aria-hidden="true">×</span> </button>
+                    <div class="arrow"></div>
+                    <div class="content">
+                        <h5>Zone C</h5>
+						<h6>Targeted support. All-over comfort.</h6>
+                        <p>Our signature Posturepedic® Plus Collection features our best-quality specialty foams, highest level of targeted support, most advanced motion-absorbing coils and all-over cooling comfort for the deep, relaxing sleep you need to take on tomorrow.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tooltipCustom tooltip-4">
+                <div class="pin"></div>
+                <div class="tooltip-content"><button type="button" class="close closebtn" aria-label="Close"> <span
+                            aria-hidden="true">×</span> </button>
+                    <div class="arrow"></div>
+                    <div class="content">
+                        <h5>Zone D</h5>
+						<h6>Feels Up to 8° Cooler*</h6>
+                        <p>The TEMPUR-LUXEbreeze° has a 4-level system of cutting-edge cooling materials that work together from cover to core to keep you cool all night long.</p>
+                    </div>
+                </div>
+            </div> -->
+
+        </div>
+    </div>
+</section>

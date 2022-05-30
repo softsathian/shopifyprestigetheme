@@ -3,16 +3,51 @@
     "main": {
       "type": "main-cart",
       "settings": {
+        "show_shipping_estimator": false,
+        "shipping_estimator_default_country": "United States"
+      }
+    },
+    "16528627903ef9b125": {
+      "type": "complete-product",
+      "blocks": {
+        "8a05c621-097b-4059-a012-200966be8b8f": {
+          "type": "product",
+          "settings": {
+            "product": "posturepedic®528169"
+          }
+        },
+        "e20207fb-136c-4533-b1b3-f787cefbba44": {
+          "type": "product",
+          "settings": {
+            "product": "essentials™526389"
+          }
+        }
+      },
+      "block_order": [
+        "8a05c621-097b-4059-a012-200966be8b8f",
+        "e20207fb-136c-4533-b1b3-f787cefbba44"
+      ],
+      "settings": {
+        "heading": "Recommended Products to complete your sleep system",
+        "show_product_info": true,
+        "show_vendor": true,
+        "show_cart_button": true,
+        "show_color_swatch": false
       }
     },
     "recently-viewed-products": {
       "type": "recently-viewed-products",
       "settings": {
+        "title": "Recently viewed",
+        "show_product_info": true,
+        "show_vendor": false,
+        "show_color_swatch": false
       }
     }
   },
   "order": [
     "main",
+    "16528627903ef9b125",
     "recently-viewed-products"
   ]
 }
