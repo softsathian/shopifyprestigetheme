@@ -689,7 +689,8 @@ section.Product.Product-page {
 .sticky-image-wrapper {
     position: sticky;
     top: 0;
-    padding-top: 80px;
+    padding-top: 40px;
+    /* padding-top: 80px; */
     /* padding-top: 30px;
     margin-top: 30px; */
 }
@@ -783,6 +784,7 @@ section.Product.Product-page {
     }
 
     .Product__Info {
-        padding-top: 80px;
+        padding-top: 50px;
+        /* padding-top: 80px; */
     }
 }

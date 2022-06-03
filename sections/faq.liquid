@@ -1,0 +1,188 @@
+<style>
+    .questions-list {
+        padding: 0;
+        margin: 0;
+    }
+
+    .questions-list .questions-list__item {
+        list-style-type: none;
+        padding: 0px 0 5px 0;
+        margin: 0;
+        text-align: justify;
+    }
+
+    .questions-list .questions-list__item:not(:last-child),
+    .questions-list .questions-list__item:only-child {
+        border-bottom: 1px solid #ccc;
+    }
+
+    .questions-list .questions-list__title {
+        margin: 0;
+        font-size: 16px;
+        text-transform: none;
+        color: var(--body-color);
+        padding: 0;
+        padding-top: 20px;
+        padding-bottom: 15px;
+        position: relative;
+        transition: all 0.2s;
+        cursor: pointer;
+        letter-spacing: normal;
+        padding-left: 30px;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-align: left;
+    }
+
+    .questions-list .questions-list__title.is--open {
+        font-weight: 700;
+    }
+
+    .questions-list .questions-list__content {
+        margin-bottom: 20px;
+        display: none;
+    }
+
+    .questions-list .questions-list__title:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 3px;
+        height: 100%;
+        width: 20px;
+        transition: all 0.5s;
+        perspective: 1000px;
+        background: transparent url(https://cdn.shopify.com/s/files/1/0575/3959/2324/files/chevron-down.svg?v=1654164752) center center/18px no-repeat;
+        transform: rotate(-90deg);
+    }
+
+    .questions-list .questions-list__title.is--open:after {
+        transform: rotate(180deg);
+    }
+
+    .payment-methods {
+        background: #f5f5f5;
+        padding: 5rem 0rem;
+    }
+
+    .payment-methods .SectionHeader {
+        margin-bottom: 50px;
+    }
+    .payment-methods__container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .payment-methods__item {
+        height: 2em;
+        padding: 0 1em;
+    }
+    img.payment-methods__icon {
+        height: 100%!important;
+        width: auto!important;
+    }
+</style>
+
+<section class="Section Section--spacingNormal" id="section-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="FAQ">
+    <div class="faq-section">
+        <div class="Container container-wrapper">
+            <header class="SectionHeader SectionHeader--center">
+                <h2 class="SectionHeader__Heading Heading u-h1">{{ section.settings.heading }}</h2>
+            </header>
+            <div class="faq-content">
+                <div class="faq-content__boxes">
+                    <ul class="questions-list">
+                        {%- for block in section.blocks -%}
+                            <li class="questions-list__item">
+                                <h3 class="questions-list__title">{{ block.settings.question }}</h3>
+                                <section class="questions-list__content">
+                                    {{ block.settings.answer }}
+                                </section>
+                            </li>
+                        {%- endfor -%}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<div class="payment-methods">
+    <div class="Container">
+      <header class="SectionHeader SectionHeader--center">
+          <h2 class="SectionHeader__Heading Heading u-h1">Convenient Payment</h2>
+      </header>
+      <div class="payment-methods__container">
+          <div class="payment-methods__item">
+            <img src="https://cdn.shopify.com/s/files/1/0575/3959/2324/files/payment-method-visa.svg?v=1654155763" alt="Visa Payment Method" loading="lazy" class="payment-methods__icon">
+          </div>
+          <div class="payment-methods__item">
+            <img src="https://cdn.shopify.com/s/files/1/0575/3959/2324/files/payment-method-mastercard.svg?v=1654155763" alt="Mastercard Payment Method" loading="lazy" class="payment-methods__icon">
+          </div>
+          <div class="payment-methods__item">
+            <img src="https://cdn.shopify.com/s/files/1/0575/3959/2324/files/payment-method-amex.svg?v=1654155763" alt="Amex Payment Method" loading="lazy" class="payment-methods__icon">
+          </div>
+          <div class="payment-methods__item">
+            <img src="https://cdn.shopify.com/s/files/1/0575/3959/2324/files/payment-method-shoppay.svg?v=1654155763" alt="Shoppay Payment Method" loading="lazy" class="payment-methods__icon">
+          </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+    $(document).ready(function() {
+        faqQuestionAnswers();
+    });
+  function faqQuestionAnswers() {
+    $(".questions-list__title").click((function(e) {
+        e.preventDefault(), $(this).next(".questions-list__content").slideToggle(),
+        $(this).toggleClass("is--open");
+    }))
+}
+</script>
+
+{% schema %}
+{
+  "name": "Frequently Asked Question",
+  "tag": "article",
+  "class": "shopify-section--bordered",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    }
+   ],
+   "blocks": [
+    {
+      "type": "text",
+      "name": "Questions",
+      "settings": [      
+        {
+            "type": "text",
+            "id": "question",
+            "label": "Question"
+        },
+        {
+            "type": "richtext",
+            "id": "answer",
+            "label": "Answer"
+        }
+      ]
+    }
+   ],
+  "presets": [
+    {
+      "name": "FAQ"
+    }
+  ]
+}
+{% endschema %}

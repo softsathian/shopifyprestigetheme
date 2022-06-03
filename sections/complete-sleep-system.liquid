@@ -1,25 +1,108 @@
-{%- assign product_handle_name = cart.items[0].product.handle -%}
+{%- comment -%}
+  Based on Page Template will show the Recommended products
+{%- endcomment -%}
+
+{%- if template == 'cart' -%}
+    {%- if cart.items and cart.items[0] -%}
+      {%- assign product_handle_name =  cart.items[0].product.handle -%}
+    {%- else -%}
+      {%- assign product_handle_name =  'null' -%}
+    {%- endif -%}
+{%- else -%}
+    {%- assign product_handle_name = product.handle -%}
+{%- endif -%}
+
 <script>
     $(document).ready(function() {
-      var elem = document.querySelector('.Complete-RecommendationsProduct .ProductListWrapper .Carousel');
-        var url = 'https://tsi-sleepsmart-dev-api.azurewebsites.net/api/Common/GetRelatedProducts/'+ '{{ product_handle_name }}';
-        const res = getProducts(url,elem);
-  
-        
-      
-      setTimeout(function() {
-        var flkty = new Flickity( elem, {
-            prevNextButtons: true,
-            pageDots: false,
-            wrapAround: false,
-            contain: true,
-            cellAlign: 'center',
-            watchCSS: true,
-            dragThreshold: 8,
-            groupCells: true,
-        });
-      }, 1500)
+        // console.log('{{ product_handle_name }}');
+        // if('{{product_handle_name}}' != 'null') {
+        //   console.log('ssd');
+        var elem = document.querySelector('.Complete-RecommendationsProduct .ProductListWrapper .Carousel');
+          var url = 'https://tsi-sleepsmart-dev-api.azurewebsites.net/api/Common/GetRelatedProducts/'+ '{{ product_handle_name }}';
+          const res = getProducts(url,elem);
+        // } else {
+        //   $('.section-completeSleep').parent().remove();
+        // }
     });
+
+    function getImageSrcSet(imageSrc) {
+      var imageWidths = [200, 400, 600, 700, 800, 900, 1000, 1200];
+      let image_data_srcset = '';
+      var exten = imageSrc.split('.')[imageSrc.split('.').length - 1];
+      var ex = exten.split('?');
+      imageWidths.forEach(function (width, index) {
+        switch (ex[0]) {
+          case 'jpg':
+            image_data_srcset += ' ' + imageSrc.replace('.jpg', '_' + width + 'x.jpg') + ' ' + width + 'w,';
+            break;
+
+          case 'png':
+            image_data_srcset += ' ' + imageSrc.replace('.png', '_' + width + 'x.png') + ' ' + width + 'w,';
+            break;
+
+          case 'gif':
+            image_data_srcset += ' ' + imageSrc.replace('.gif', '_' + width + 'x.gif') + ' ' + width + 'w,';
+            break;
+        }
+      });
+      return image_data_srcset.substring(0, image_data_srcset.length - 1);
+    };
+
+    var Shopify = Shopify || {};
+
+    // ---------------------------------------------------------------------------
+    // Money format handler
+    // ---------------------------------------------------------------------------
+
+    Shopify.money_format = '{{ shop.money_format }}';
+
+    Shopify.formatMoney = function(cents, format) {
+
+        if (typeof cents == 'string') {
+            cents = cents.replace('.', '');
+        }
+
+        var value = '';
+        var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+        var formatString = (format || this.money_format);
+
+        function defaultOption(opt, def) {
+            return (typeof opt == 'undefined' ? def : opt);
+        }
+
+        function formatWithDelimiters(number, precision, thousands, decimal) {
+            precision = defaultOption(precision, 2);
+            thousands = defaultOption(thousands, ',');
+            decimal = defaultOption(decimal, '.');
+
+            if (isNaN(number) || number == null) {
+                return 0;
+            }
+
+            number = (number / 100.0).toFixed(precision);
+            var parts = number.split('.'),
+                dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands),
+                cents = parts[1] ? (decimal + parts[1]) : '';
+            return dollars + cents;
+        }
+
+        switch (formatString.match(placeholderRegex)[1]) {
+            case 'amount':
+                value = formatWithDelimiters(cents, 2);
+                break;
+            case 'amount_no_decimals':
+                value = formatWithDelimiters(cents, 0);
+                break;
+            case 'amount_with_comma_separator':
+                value = formatWithDelimiters(cents, 2, '.', ',');
+                break;
+
+            case 'amount_no_decimals_with_comma_separator':
+                value = formatWithDelimiters(cents, 0, '.', ',');
+                break;
+        }
+        return formatString.replace(placeholderRegex, value);
+    };
     
     function getProducts(url,elem) {
         $.ajax({
@@ -30,14 +113,104 @@
             success: function(res) {
               var itemsCount = 0;
               var content = '-';
+              var imageTemplate = '';
+              var labelTemplate = '';
+              var priceTemplate = '';
+              var ratingTemplate = '';
+              var buttonTemplate = '';
               var product_handles = res;
+              var productInfo = '';
+              var vendorTemplate = ''; 
+              var alternate_image = '';
+              var featured_image = '';
               var productdetail = new Promise((resolve, reject) => {
               product_handles.forEach(function(item, index, array) {
                     jQuery.getJSON('/products/' + item + '.js', function(product) {
                         console.log(product);
+                        // console.log('{{settings.product_show_secondary_image}}');
                         //var price = Shopify.formatMoney(product.price, '{{ shop.money_format }}');
                         //console.log(price);
-                        content += '<div class="Carousel__Cell"><div class="ProductItem"><div class="ProductItem__Wrapper"><a href="#" class="ProductItem__ImageWrapper ProductItem__ImageWrapper--withAlternateImage"><div class=""><img  class="ProductItem__Image ProductItem__Image--alternate Image--fadeIn lazyautosizes Image--lazyLoaded" data-widths="[200,300,400,600,800]" data-sizes="auto" src="'+ product.images[1] +'" alt="' + product.title + '"/> <img class="ProductItem__Image Image--fadeIn lazyautosizes Image--lazyLoaded" data-widths="[200,400,600,700,800]" data-sizes="auto" alt="' + product.title + '" src="'+ product.images[0] +'"></div></a><div class="ProductItem__Info ProductItem__Info--center"><h2 class="ProductItem__Title Heading"><a href="#">' + product.title + '</a></h2><span class="smartwishlist" data-product="' + product.id + '" data-variant="' + product.variants[0].id + '"></span><div class="ProductItem__PriceList  Heading"><span class="ProductItem__Price Price Text--subdued">From $'+ product.price +'</span></div></div> <div class="add-to-cart-button"><form method="post" action="/cart/add"><input type="hidden" name="id" value="'+ product.variants[0].id +'" /><input min="1" type="number" id="quantity" name="quantity" value="1" hidden/><button type="submit" data-use-primary-button="false" class="ProductForm__AddToCart Button Button--secondary Button--full btn-butnow"><span>Add to cart</span></button></form></div></div></div></div>';
+                        var template = '<div class="Carousel__Cell"><div class="ProductItem"><div class="ProductItem__Wrapper">{imageplaceholder}<div class="ProductItem__LabelList">{labelplaceholder}</div>{productinfo}</div></div></div>';
+
+
+                        {%- if section.settings.show_product_info == true -%}
+                            productInfo = '<div class="ProductItem__Info ProductItem__Info--center">{vendorplaceholder}<h2 class="ProductItem__Title Heading"><a href="' + product.url +'">' + product.title + '</a></h2>{ratingplaceholder}<span class="smartwishlist" data-product="' + product.id + '" data-variant="' + product.variants[0].id + '"></span>{priceplaceholder}</div> <div class="add-to-cart-button"><form method="post" action="/cart/add"><input type="hidden" name="id" value="'+ product.variants[0].id +'" /><input min="1" type="number" id="quantity" name="quantity" value="1" hidden/>{buttonplaceholder}</form></div>';
+                        {%- else -%}
+                            productInfo = '';
+                        {%- endif -%}
+
+                        {%- if section.settings.show_vendor == true -%}
+                          vendorTemplate = '<p class="ProductItem__Vendor Heading">' + product.vendor + '</p>';
+                        {%- else -%}
+                          vendorTemplate = '';
+                        {%- endif -%}
+
+                        //console.log(product.metafields);
+
+                        // if (product.available == true) {
+                         
+                        // } else {                            
+                        //   labelTemplate = '<span class="ProductItem__Label ProductItem__Label--soldOut Heading Text--subdued">Sold out</span>';
+                        // }
+
+                        // var imgset = 'srcset="//cdn.shopify.com/s/files/1/0575/3959/2324/products/ProAdaptMedium_Hero_IC1_200x.jpg?v=1653383723 200w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/ProAdaptMedium_Hero_IC1_400x.jpg?v=1653383723 400w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/ProAdaptMedium_Hero_IC1_600x.jpg?v=1653383723 600w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/ProAdaptMedium_Hero_IC1_700x.jpg?v=1653383723 700w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/ProAdaptMedium_Hero_IC1_800x.jpg?v=1653383723 800w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/ProAdaptMedium_Hero_IC1_900x.jpg?v=1653383723 900w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/ProAdaptMedium_Hero_IC1_1000x.jpg?v=1653383723 1000w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/ProAdaptMedium_Hero_IC1_1200x.jpg?v=1653383723 1200w"';
+                        
+                        if ({{section.settings.show_cart_button }} == true) {
+                          if (product.available == true) {
+                            buttonTemplate = '<button type="submit" data-use-primary-button="false" class="ProductForm__AddToCart Button Button--secondary Button--full"><span>Add to cart</span></button>'; 
+                          } else {
+                            buttonTemplate = '<button type="submit" data-use-primary-button="false" class="ProductForm__AddToCart Button Button--secondary Button--full" disabled="disabled"><span>Sold Out</span></button>';
+                          }
+                        }
+
+                        if (product.available == true) {                      
+                            labelTemplate = product.compare_at_price > product.price ? '<span class="ProductItem__Label ProductItem__Label--onSale Heading Text--subdued">On sale</span>' : '';
+                        } else {
+                            labelTemplate = '<span class="ProductItem__Label ProductItem__Label--soldOut Heading Text--subdued">Sold out</span>';
+                        }
+
+                        if ({{ settings.product_show_secondary_image }} && (product.images && product.images.length >= 2)) {
+                            alternate_image = getImageSrcSet(product.images[1]);
+                            featured_image = getImageSrcSet(product.featured_image);
+                            console.log(alternate_image, featured_image)
+                              imageTemplate = '<a href="' + product.url +'" class="ProductItem__ImageWrapper ProductItem__ImageWrapper--withAlternateImage"><img  class="ProductItem__Image ProductItem__Image--alternate Image--fadeIn lazyautosizes Image--lazyLoaded" srcset="'+ alternate_image +'" sizes="200,300,400,600,800,900,1000,1200]" data-widths=[200,300,400,600,800,900,1000,1200] alt="' + product.title + '"/> <img class="ProductItem__Image Image--fadeIn lazyautosizes Image--lazyLoaded" alt="' + product.title + '" sizes="auto" srcset="'+ featured_image +'"></a>';
+                          } else if( product.featured_image && product.featured_image !=null ) {
+                              featured_image = getImageSrcSet(product.featured_image);
+                              imageTemplate = '<a href="' + product.url +'" class="ProductItem__ImageWrapper"><img class="ProductItem__Image Image--fadeIn lazyautosizes Image--lazyLoaded" alt="' + product.title + '" sizes="[200,300,400,600,800,900,1000,1200]" data-widths=[200,300,400,600,800,900,1000,1200] srcset="'+ featured_image +'"></a>';
+                          } else {
+                              imageTemplate = '';
+                          }
+
+
+
+                        // if({{settings.product_show_secondary_image}} && ( product.media && product.media.length >= 2)) {
+                        //     imageTemplate = '<a href="' + product.url +'" class="ProductItem__ImageWrapper ProductItem__ImageWrapper--withAlternateImage"><div class="AspectRatio-s"><img  class="ProductItem__Image ProductItem__Image--alternate Image--fadeIn lazyautosizes Image--lazyLoaded" data-widths="[200,300,400,600,800]" data-sizes="auto" src="'+  product.media[1].preview_image.src +'" alt="' + product.title + '"/> <img class="ProductItem__Image Image--fadeIn lazyautosizes Image--lazyLoaded" data-widths="[200,400,600,700,800]" data-sizes="auto" alt="' + product.title + '" src="'+ product.featured_image +'"><span class="Image__Loader"></span></div></a>'; 
+                        // } else if(product.featured_image && product.featured_image !=null) {
+                        //     imageTemplate = '<a href="' + product.url +'" class="ProductItem__ImageWrapper"><div class="AspectRatio-s"><img class="ProductItem__Image Image--fadeIn lazyautosizes Image--lazyLoaded" data-widths="[200,400,600,700,800]" data-sizes="auto" alt="' + product.title + '" src="'+ product.featured_image +'"><span class="Image__Loader"></span></div></a>'; 
+                        // } else {
+                        //     imageTemplate = '';
+                        // }
+
+                          ratingTemplate = '<div class="ProductItem__Rating Heading Text--subdued u-h7"><div class="rating"><div class="rating__stars" role="img" aria-label="0 out of 5 stars"> <svg fill="none" focusable="false" width="14" height="14" class="rating__star rating__star--empty" viewBox="0 0 14 13"><path d="M7 0L8.6458 4.73475L13.6574 4.83688L9.66296 7.86525L11.1145 12.6631L7 9.8L2.8855 12.6631L4.33704 7.86525L0.342604 4.83688L5.3542 4.73475L7 0Z" fill="currentColor"></path></svg><svg fill="none" focusable="false" width="14" height="14" class="rating__star rating__star--empty" viewBox="0 0 14 13"><path d="M7 0L8.6458 4.73475L13.6574 4.83688L9.66296 7.86525L11.1145 12.6631L7 9.8L2.8855 12.6631L4.33704 7.86525L0.342604 4.83688L5.3542 4.73475L7 0Z" fill="currentColor"></path></svg><svg fill="none" focusable="false" width="14" height="14" class="rating__star rating__star--empty" viewBox="0 0 14 13"><path d="M7 0L8.6458 4.73475L13.6574 4.83688L9.66296 7.86525L11.1145 12.6631L7 9.8L2.8855 12.6631L4.33704 7.86525L0.342604 4.83688L5.3542 4.73475L7 0Z" fill="currentColor"></path></svg><svg fill="none" focusable="false" width="14" height="14" class="rating__star rating__star--empty" viewBox="0 0 14 13"><path d="M7 0L8.6458 4.73475L13.6574 4.83688L9.66296 7.86525L11.1145 12.6631L7 9.8L2.8855 12.6631L4.33704 7.86525L0.342604 4.83688L5.3542 4.73475L7 0Z" fill="currentColor"></path></svg><svg fill="none" focusable="false" width="14" height="14" class="rating__star rating__star--empty" viewBox="0 0 14 13"><path d="M7 0L8.6458 4.73475L13.6574 4.83688L9.66296 7.86525L11.1145 12.6631L7 9.8L2.8855 12.6631L4.33704 7.86525L0.342604 4.83688L5.3542 4.73475L7 0Z" fill="currentColor"></path></svg></div><span class="rating__caption">NO REVIEWS</span></div></div>';
+
+
+
+                          var showPriceOnHover = {{ settings.product_show_price_on_hover }} ? '<div class="ProductItem__PriceList ProductItem__PriceList--showOnHover Heading">'
+                          : '<div class="ProductItem__PriceList Heading">';
+                          if (product.compare_at_price > product.price) {
+                              priceTemplate = showPriceOnHover +'<span class="ProductItem__Price Price Text--subdued Price--highlight">'+ Shopify.formatMoney(product.price, '{{ shop.money_format }}') +'</span><span class="ProductItem__Price Price Price--compareAt Text--subdued">'+ Shopify.formatMoney(product.compare_at_price, '{{ shop.money_format }}') +'</span></div>';
+                          } else {
+                              priceTemplate = showPriceOnHover + '<span class="ProductItem__Price Price Text--subdued">From '+ Shopify.formatMoney(product.price, '{{ shop.money_format }}') +'</span></div>';
+                          }
+
+                        // if (product.compare_at_price > product.price) {
+                        //   priceTemplate = '<div class="ProductItem__PriceList Heading"><span class="ProductItem__Price Price Text--subdued Price--highlight">'+ Shopify.formatMoney(product.price, '{{ shop.money_format }}') +'</span><span class="ProductItem__Price Price Price--compareAt Text--subdued">'+ Shopify.formatMoney(product.compare_at_price, '{{ shop.money_format }}') +'</span></div>';
+                        // } else {
+                        //   priceTemplate = '<div class="ProductItem__PriceList Heading"><span class="ProductItem__Price Price Text--subdued">From '+ Shopify.formatMoney(product.price, '{{ shop.money_format }}') +'</span></div>';
+                        // }
+
+                        content += template.replace('{imageplaceholder}', imageTemplate).replace('{productinfo}', productInfo).replace('{vendorplaceholder}', vendorTemplate).replace('{labelplaceholder}', labelTemplate).replace('{priceplaceholder}', priceTemplate).replace('{ratingplaceholder}', ratingTemplate).replace('{buttonplaceholder}', buttonTemplate);
+
                         itemsCount ++;
                         if (itemsCount === array.length) resolve();
                     });
@@ -47,10 +220,26 @@
                 console.log(content);
                 content = content.substring(1);
                 $(".Complete-ProductList").html(content);
+                setTimeout(function() {
+                  var flkty = new Flickity( elem, {
+                      draggable: false,
+                      resize: true,
+                      prevNextButtons: true,
+                      pageDots: false,
+                      wrapAround: false,
+                      contain: true,
+                      cellAlign: 'center',
+                      watchCSS: true,
+                      dragThreshold: 8,
+                      groupCells: true,
+                      arrowShape: {x0: 20, x1: 60, y1: 40, x2: 60, y2: 35, x3: 25}
+                  });
+                 }, 1000);
             });
             },
             error: function(status){ 
-              alert("fail"+JSON.stringify(status));
+              $('.section-completeSleep').parent().remove();
+              //alert("fail"+JSON.stringify(status));
             }
           });
           }
@@ -59,7 +248,7 @@
   </script>
   
   
-  <section class="Section Section--spacingNormal">
+  <section class="Section Section--spacingNormal section-completeSleep">
       <header class="SectionHeader SectionHeader--center">
         <div class="Container">
           <h3 class="SectionHeader__Heading Heading u-h3">{{ section.settings.heading | escape }}</h3>
@@ -137,35 +326,3 @@
     ]
   }
   {% endschema %}
-  
-  
-  
-  <!-- <div class="ProductItem">
-    <div class="ProductItem__Wrapper">
-        <a href="#" class="ProductItem__ImageWrapper ProductItem__ImageWrapper--withAlternateImage">
-          <div class="">
-            <img src="//cdn.shopify.com/s/files/1/0575/3959/2324/products/Compare_LH87.jpg?v=1653314441" alt="Image" />
-          </div>
-        </a>
-        <div class="ProductItem__Info ProductItem__Info--center">
-            <h2 class="ProductItem__Title Heading">
-                <a href="#">Chablis Foam</a>
-            </h2>
-          
-            <div class="ProductItem__PriceList  Heading">
-              <span class="ProductItem__Price Price Text--subdued">From $1,099.00</span>
-            </div>
-        </div>
-        
-  <form method="post" action="/cart/add">
-    <input type="hidden" name="id" value="40494915190916" />
-    <input min="1" type="number" id="quantity" name="quantity" value="1" hidden/>
-    <input min="1" type="number" id="quantity" name="quantity" value="1" hidden/>
-          <button type="submit" data-use-primary-button="false" class="ProductForm__AddToCart Button Button--secondary Button--full btn-butnow">
-            <span>Add to cart</span>
-        </button>
-      </form>
-    </div>
-  </div> -->
-
-  <!-- <img class="ProductItem__Image ProductItem__Image--alternate Image--fadeIn lazyautosizes Image--lazyLoaded" data-widths="[200,300,400,600,800]" data-sizes="auto" alt="Chablis Foam" data-media-id="22770330566788" data-srcset="//cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_200x.webp?v=1652866631 200w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_300x.webp?v=1652866631 300w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_400x.webp?v=1652866631 400w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_600x.webp?v=1652866631 600w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_800x.webp?v=1652866631 800w" sizes="211px" srcset="//cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_200x.webp?v=1652866631 200w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_300x.webp?v=1652866631 300w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_400x.webp?v=1652866631 400w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_600x.webp?v=1652866631 600w, //cdn.shopify.com/s/files/1/0575/3959/2324/products/Ch5_800x.webp?v=1652866631 800w"> -->

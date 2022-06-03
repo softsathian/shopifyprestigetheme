@@ -126,8 +126,8 @@
             "collection": "",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
-            "subheading": "Sub-heading",
-            "title": "Collection name",
+            "subheading": "",
+            "title": "Primary Suite",
             "button_text": "View products",
             "button_link": "",
             "apply_overlay": true
@@ -139,8 +139,8 @@
             "collection": "",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
-            "subheading": "Sub-heading",
-            "title": "Collection name",
+            "subheading": "",
+            "title": "Guest Suite",
             "button_text": "View products",
             "button_link": "",
             "apply_overlay": true
@@ -152,8 +152,8 @@
             "collection": "",
             "image_alignment": "center center",
             "content_position": "bottomLeft",
-            "subheading": "Sub-heading",
-            "title": "Collection name",
+            "subheading": "",
+            "title": "Children Suite",
             "button_text": "View products",
             "button_link": "",
             "apply_overlay": true
@@ -328,6 +328,170 @@
         "title": "Our looks",
         "show_mobile_product_info": false
       }
+    },
+    "165415719230421b85": {
+      "type": "complete-product",
+      "blocks": {
+        "17689e1e-7864-4abe-b51a-933a8bda641a": {
+          "type": "product",
+          "settings": {
+            "product": "posturepedic®527775"
+          }
+        },
+        "8b88f2a3-1db4-4935-9480-fe5fe66b6902": {
+          "type": "product",
+          "settings": {
+            "product": "sealy-posturepedic-spring-lavina-ii-soft-euro-pillow-top"
+          }
+        },
+        "c5525fcc-f902-4ff5-92c3-19b68873bef0": {
+          "type": "product",
+          "settings": {
+            "product": "tempur-cloud®-adjustable-pillow"
+          }
+        },
+        "b5e726e3-26d5-474e-a008-73788bfe69cf": {
+          "type": "product",
+          "settings": {
+            "product": "tempur-cloud®-adjustable-pillow"
+          }
+        }
+      },
+      "block_order": [
+        "17689e1e-7864-4abe-b51a-933a8bda641a",
+        "8b88f2a3-1db4-4935-9480-fe5fe66b6902",
+        "c5525fcc-f902-4ff5-92c3-19b68873bef0",
+        "b5e726e3-26d5-474e-a008-73788bfe69cf"
+      ],
+      "settings": {
+        "heading": "Accessories",
+        "show_product_info": true,
+        "show_vendor": false,
+        "show_cart_button": true,
+        "show_color_swatch": false
+      }
+    },
+    "1654157469e5e1bc8e": {
+      "type": "reviews-testimonial",
+      "blocks": {
+        "a61c59ff-c136-4a75-b368-ee12e9abea18": {
+          "type": "text",
+          "settings": {
+            "subheading": "BEST SLEEP I'VE EVER HAD",
+            "content": ""
+          }
+        },
+        "066f63fa-21cf-4c2d-991f-cedb4b3fb666": {
+          "type": "text",
+          "settings": {
+            "subheading": "I'M SLEEPING ON A CLOUD",
+            "content": ""
+          }
+        },
+        "dbd0f8aa-da9e-45a9-bfc3-7e1591f78ec5": {
+          "type": "text",
+          "settings": {
+            "subheading": "BEST SLEEP I'VE EVER HAD!",
+            "content": ""
+          }
+        },
+        "5f243cb5-50c7-47fa-9fe2-23539487838b": {
+          "type": "text",
+          "settings": {
+            "subheading": "I'M SLEEPING IN A CLOUD",
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "a61c59ff-c136-4a75-b368-ee12e9abea18",
+        "066f63fa-21cf-4c2d-991f-cedb4b3fb666",
+        "dbd0f8aa-da9e-45a9-bfc3-7e1591f78ec5",
+        "5f243cb5-50c7-47fa-9fe2-23539487838b"
+      ],
+      "settings": {
+        "heading": "Reviews"
+      }
+    },
+    "1654157527cd39ae6a": {
+      "type": "need-help",
+      "blocks": {
+        "fb12454e-ac3e-4ef9-8b94-a27128410653": {
+          "type": "text",
+          "settings": {
+            "icon_selction": "call-us",
+            "subheading": "Call Us",
+            "content": "<p>Need to speak to our support team directly? We’d love to hear from you! Call us at+1 (800) 430-8380.<\/p>"
+          }
+        },
+        "28e23ee0-23c4-47a9-8386-a1cb98c9f498": {
+          "type": "text",
+          "settings": {
+            "icon_selction": "chat-us",
+            "subheading": "Chat With Us",
+            "content": "<p>For queries about any mattresses or products, we're always here to assist.Click here to begin.<\/p>"
+          }
+        },
+        "7f01349a-a309-4d26-be60-d96199578c5f": {
+          "type": "text",
+          "settings": {
+            "icon_selction": "email-us",
+            "subheading": "Email Us",
+            "content": "<p>Whatever your question, we've got the answer. For further help, you can email us here.<\/p>"
+          }
+        },
+        "063d9527-1187-4a0d-b427-5873d469bb32": {
+          "type": "text",
+          "settings": {
+            "icon_selction": "text-us",
+            "subheading": "Text Us",
+            "content": "<p>Our team is ready to help improve your sleep. Text to<strong>+1 (833) 221-2331<\/strong>for offers.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "fb12454e-ac3e-4ef9-8b94-a27128410653",
+        "28e23ee0-23c4-47a9-8386-a1cb98c9f498",
+        "7f01349a-a309-4d26-be60-d96199578c5f",
+        "063d9527-1187-4a0d-b427-5873d469bb32"
+      ],
+      "settings": {
+        "heading": "Need Help ? We're Here for you"
+      }
+    },
+    "1654168091a4b75cab": {
+      "type": "faq",
+      "blocks": {
+        "6b350b9b-aa9c-450a-8b4b-31309f45ecee": {
+          "type": "text",
+          "settings": {
+            "question": "What is the difference between Puffy mattresses?",
+            "answer": "<p><strong>Puffy Mattress<\/strong> is cooling and comfortable with a medium-firm feel. It's got 5 layers and is 10” thick.<\/p><p><strong>Puffy Lux Mattress<\/strong> offers classic memory foam comfort, featuring advanced cooling properties for breathable and uninterrupted sleep. It has 6 layers and is 12” thick.<\/p><p><strong>Puffy Lux Hybrid Mattress (most popular)<\/strong> is highly breathable and airy with targeted spinal alignment and a luxurious medium-plush feel. It's got 6 layers and is 12” thick.<\/p><p><strong>Puffy Royal Hybrid Mattress<\/strong> is infused with cooling gel to reduce heat retention and has premium zoned full-body support that adapts as you move. Plus an ultra-plush feel with a deluxe cover. It's got 7 layers and is 14” thick.<\/p>"
+          }
+        },
+        "858b44eb-51f6-40df-9ed3-ba77d1e06ffa": {
+          "type": "text",
+          "settings": {
+            "question": "Are the foams in the mattresses CertiPUR-US® certified?",
+            "answer": "<p>Yes! All Puffy mattress foams are CertiPUR-US® certified and independently tested for quality. CertiPUR-US® approved foams give consumers peace of mind that they are made without ozone depleters, PBDEs, TDCPP or TCEP flame retardants, mercury, lead, and other heavy metals, formaldehyde, and phthalates. Puffy mattress foams also have low VOC (Volatile Organic Compound) emissions for indoor air quality (less than 0.5 parts per million).<\/p>"
+          }
+        },
+        "98e5b4cb-8e46-4419-aef9-a5e761f06cf8": {
+          "type": "text",
+          "settings": {
+            "question": "How much does it cost to ship?",
+            "answer": "<p>Shipping is free!<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "6b350b9b-aa9c-450a-8b4b-31309f45ecee",
+        "858b44eb-51f6-40df-9ed3-ba77d1e06ffa",
+        "98e5b4cb-8e46-4419-aef9-a5e761f06cf8"
+      ],
+      "settings": {
+        "heading": "FAQ"
+      }
     }
   },
   "order": [
@@ -337,6 +501,10 @@
     "featured-product",
     "timeline",
     "blog-posts",
-    "shop-the-look"
+    "shop-the-look",
+    "165415719230421b85",
+    "1654157469e5e1bc8e",
+    "1654157527cd39ae6a",
+    "1654168091a4b75cab"
   ]
 }

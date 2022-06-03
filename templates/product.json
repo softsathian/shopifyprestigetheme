@@ -73,8 +73,19 @@
         "enable_video_looping": true
       }
     },
+    "1653925018ea5c4ba3": {
+      "type": "complete-sleep-system",
+      "settings": {
+        "heading": "Recommended Products to complete your sleep system",
+        "show_product_info": true,
+        "show_vendor": true,
+        "show_cart_button": true,
+        "show_color_swatch": false
+      }
+    },
     "1652937490c709a637": {
       "type": "complete-product",
+      "disabled": true,
       "blocks": {
         "d0c94221-d3ad-472d-a2d5-31e21fcb5178": {
           "type": "product",
@@ -127,6 +138,7 @@
   },
   "order": [
     "main",
+    "1653925018ea5c4ba3",
     "1652937490c709a637",
     "recently-viewed-products"
   ]

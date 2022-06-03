@@ -1,0 +1,104 @@
+<style>
+    .Grid__Center {
+        text-align: center !important;
+    }
+
+    .icon-wrapper {
+          margin-bottom: 1.5rem;
+      }
+    
+    .icon-wrapper svg {
+        width: 34px;
+        height: 34px;
+    }
+</style>
+
+<section class="Section Section--spacingNormal" id="section-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="help">
+<div class="help-section">
+    <div class="Container container-wrapper">
+        <header class="SectionHeader SectionHeader--center">
+            <h2 class="SectionHeader__Heading Heading u-h1">{{ section.settings.heading }}</h2>
+        </header>
+        <div class="HelpListWrapper">
+            <div class="HelpList Grid Grid--m Grid--center">
+                {%- for block in section.blocks -%}
+                    <div class="Grid__Cell 1/2--tablet 1/4--lap-and-up Grid__Center">                      
+                        <div class="icon-wrapper">
+                          {%- assign icon = block.settings.icon_selction -%}
+                          {%- render 'icon' with icon -%}
+                        </div>
+                        <h3 class="SectionHeader__SubHeading Heading u-h4">{{ block.settings.subheading }}</h3>
+                        <div class="">
+                            {{ block.settings.content }}
+                        </div>
+                    </div>
+                {%- endfor -%}
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+{% schema %}
+{
+  "name": "Need Help ?",
+  "tag": "section",
+  "class": "shopify-section--bordered",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    }
+   ],
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Contact",
+      "settings": [
+          {
+          "type": "select",
+          "id": "icon_selction",
+          "label": "Select Icon",
+          "options": [
+            {
+              "value": "call-us",
+              "label": "Call Us"
+            },
+            {
+              "value": "chat-us",
+              "label": "Chat With Us"
+            },
+            {
+              "value": "email-us",
+              "label": "Email Us"
+            },
+            {
+              "value": "text-us",
+              "label": "Text Us"
+            }
+          ],
+            "default": "chat-us"
+        },
+        {
+            "type": "text",
+            "id": "subheading",
+            "label": "Contact Heading"
+        },
+        {
+            "type": "richtext",
+            "id": "content",
+            "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Text",
+      "name": "Need Help To Choose Your Bed"
+    }
+  ]
+}
+{% endschema %}
