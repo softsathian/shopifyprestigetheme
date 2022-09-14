@@ -135,6 +135,7 @@
 
     {% render 'microdata-schema' %}
   {% render 'minmaxify-head' %}
+{% include 'store-credit-launcher' %}
 </head>
 
   {%- capture classes -%}features--heading-{{ settings.heading_size }}{%- endcapture -%}
@@ -208,5 +209,6 @@
       </div>
     {%- endif -%}
     {%- endif -%}
-  </body>
+  {% include 'store-credit-launcher' %}
+</body>
 </html>
